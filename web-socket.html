@@ -1,0 +1,120 @@
+<!--
+@element web-socket
+@author Gerard Payne
+@description Creates and manages web socket connections.
+
+    <web-socket
+        url="ws://127.0.0.1:8080/socket"
+    ></web-socket>
+
+It may include optional properties for attaching callbacks to lifecycle events.
+
+    <web-socket
+        url="ws://127.0.0.1:8080/socket"
+        on-open="subscribeSocket"
+        on-message="showMessage"
+        on-error="showError"
+        on-close="endSocket"
+    ></web-socket>
+
+You can also include optional properties causing the component to attempt to establish a socket when loaded.
+
+    <web-socket
+        url="ws://127.0.0.1:8080/socket"
+        auto
+    ></web-socket>
+
+and/or optional properties causing the component to log events to the console.
+
+    <web-socket
+        url="ws://127.0.0.1:8080/socket"
+        debug
+    ></web-socket>
+-->
+
+<link rel="import" href="bower_components/polymer/polymer.html"/>
+
+<dom-module id="web-socket">
+	<style type="text/css">
+		:host() {
+			display: none;
+		}
+	</style>
+
+	<template></template>
+</dom-module>
+
+<script type="text/javascript">
+	Polymer({
+        is: "web-socket",
+        properties: {
+            protocol: {
+                type: String,
+                value: ""
+            },
+            url: {
+                type: String
+            }
+        },
+        /* events for subscription by host */
+        onError: function (eEvent) {
+            if(!!this.attributes.debug) {console.error(this.id + ": Socket error.", eEvent);}
+            this.fire('error', eEvent);
+        },
+        onOpen: function (eEvent) {
+            if(!!this.attributes.debug) {console.info(this.id + ": Socket open.", eEvent);}
+            this.fire('open');
+        },
+        onMessage: function (eEvent) {
+            if(!!this.attributes.debug) {console.info(this.id + ": Socket message.", eEvent);}
+            this.fire('message', eEvent.data);
+        },
+        onClose: function (eEvent) {
+            if(eEvent.wasClean === true) {
+                if(!!this.attributes.debug) {console.info(this.id + ": Socket closed.", eEvent);}
+                this.fire('close', "");
+            } else {
+                console.warn("Socket closed.", eEvent.reason);
+                this.fire('close', eEvent.reason);
+            }
+        },
+        /* methods */
+        open: function () {
+            // url must be supplied but we allow browser to handle malformed url errors
+            if(this.url.length > 0) {
+                // if protocol is set construct socket with, otherwise construct without
+                var _socket = this.protocol.length > 0 ? new WebSocket(this.url, this.protocol) : new WebSocket(this.url);
+                    // binds socket events to component events
+                    _socket.onerror = this.onError.bind(this);
+                    _socket.onopen = this.onOpen.bind(this);
+                    _socket.onmessage = this.onMessage.bind(this);
+                    _socket.onclose = this.onClose.bind(this);
+                // add the socket to the component's scope
+                this.set('socket', _socket);
+            } else {
+                console.error("Please provide protocol and url.", this);
+            }
+        },
+        send: function (oMessage) {
+            if(!!this.socket && this.socket.readyState === 1) {
+                if(!!this.attributes.debug) {
+                    console.info(this.id + ": Socket send.", oMessage);
+                }
+                this.socket.send(oMessage);
+            } else {
+                console.error(this.id + ": Socket not ready.", this.socket);
+            }
+        },
+        close: function () {
+            if(!!this.socket && this.socket.readyState === 1) {
+                this.socket.close();
+                this.set('socket', undefined);
+            }
+        },
+        ready: function () {
+            if(!!this.attributes.auto) {
+                this.open();
+            }
+        }
+    });
+</script>

@@ -1,0 +1,22 @@
+# Mac guff
+.AppleDouble
+.TemporaryItems
+._.apdisk
+._.TemporaryItems
+.apdisk
+
+# node.js guff
+node_modules/
+bower_components/
+.sass-cache/
+*.log
+
+
+#IDE guff
+*.sublime*
+
+# Non-versioned project files
+assets/
+docs/
+build/
+release/
