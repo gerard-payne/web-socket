@@ -1,4 +1,6 @@
-Creates and manages web socket connections.
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/gerard-payne/web-socket)
+
+Polymer component to create and manage web socket connections.
 
     <web-socket
         url="ws://127.0.0.1:8080/socket"
@@ -14,14 +16,14 @@ It may include optional properties for attaching callbacks to lifecycle events.
         on-close="endSocket"
     ></web-socket>
 
-You can also include optional properties causing the component to attempt to establish a socket when loaded.
+It may also optional property causing the component to attempt to establish a socket when loaded.
 
     <web-socket
         url="ws://127.0.0.1:8080/socket"
         auto
     ></web-socket>
 
-and/or optional properties causing the component to log events to the console.
+and/or optional property causing the component to log events to the console.
 
     <web-socket
         url="ws://127.0.0.1:8080/socket"

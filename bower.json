@@ -1,0 +1,26 @@
+{
+  "name": "web-socket",
+  "authors": [
+    "Gerard Payne<github@gerard-payne.net>"
+  ],
+  "version": "0.0.1",
+  "description": "Component for managing web sockets.",
+  "main": [
+    "web-socket.html"
+  ],
+  "dependencies": {
+    "polymer": "polymer/polymer#^1.8.1"
+  },
+  "devDependencies": {
+    "web-component-tester": "^4.0.0"
+  },
+  "homepage": "https://github.com/gerard-payne/web-socket",
+  "license": "BSD-2-Clause",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "web-socket",
+  "version": "0.0.1",
+  "description": "Web socket component.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "web-component-tester": "^5.0.0"
+  }
+}
